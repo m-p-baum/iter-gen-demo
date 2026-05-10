@@ -37,10 +37,6 @@ getUser(id).then(user => {
 
 ```
 
----
-layout: left
-class: text-left
----
 
 # What is Actually Happening?
 ```js{monaco}
@@ -264,7 +260,7 @@ const gen = simpleGenerator()
 - Generators are a great **flow control** method
   - The generator and the caller are two separate execution streams
 
-```js{monaco}
+```js {monaco}{height: '200px'}
 function* smallNumbers() {
     let y1 = yield 1
     console.log(y1)
