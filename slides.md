@@ -135,7 +135,7 @@ const sequece = [...infiniteSequence]
 - `for…of` and spread completely exhaust the iterator they create
 - Destructuring pulls lazily:
 
-```js {monaco}{height: '400px'}
+```js {monaco}{height: '200px'}
 const arr = [1, 2, 3, 4]
 const [a, b] = arr
 const [c, d] = arr
@@ -173,7 +173,7 @@ function range(from, to) {
    - Pagination, streams, transforms
 - Before diving in, a simpler syntax
 
-```js {monaco}{height:'400px'}
+```js {monaco}{height:'200px'}
 class NumRange {
     constructor(from, to) {
         this.from = from
@@ -296,7 +296,7 @@ lazyEvens.next()
  - beomes the value of the yield where the generator picks up execution
 - yield* can be used to defer to another iterable
 
-```js {monaco}{height: '400px'}
+```js {monaco}{height: '300px'}
 function* genWithVars() {
     var x = yield 1
     var y = yield x + 2
@@ -329,7 +329,7 @@ function* outer() {
 - Before `async/await`, generators becaome a powerful tool for writing cleaner code
 - But this required some architecture 
 
-```js {monaco}{height: '400px'}
+```js {monaco}{height: '300px'}
 const HEADERS = { 'User-Agent': 'weather-demo (you@example.com)' };
 const fetchJSON = (url) => fetch(url, { headers: HEADERS }).then(r => r.json())
 
@@ -388,3 +388,13 @@ function* weatherReport(lat, lon) {
 - Iterators and generators combine lazy eval w/ flow control
 - Influential for modern handling of async code in JS
  - While async/await obviates much need for network, can still be helpful for streams, lazy transformations
+
+---
+
+# Sources
+
+- Flanagan, David. *JavaScript: The Definitive Guide*. 7th ed., O'Reilly Media, 2020.
+
+- Rauschmayer, Axel. *Exploring JavaScript*. ES2025 online ed., 2025, exploringjs.com/js/.
+
+- Simpson, Kyle. *You Don't Know JS: Async & Performance*. 1st ed., O'Reilly Media, 2015.
