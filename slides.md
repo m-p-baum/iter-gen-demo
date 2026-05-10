@@ -32,6 +32,9 @@ getUser(id).then(user => {
     });
   });
 }).catch(handle);
+
+//what would be better? 
+
 ```
 
 ---
@@ -48,7 +51,7 @@ for (const [k,v] of map) {
 }
 
 //and why not
-var mapFromObj = new Map({a:1, b:2, c:3})
+const mapFromObj = new Map({a:1, b:2, c:3})
 
 //or
 for (const item in obj) {
@@ -75,7 +78,7 @@ for (const item in obj) {
 
 Let's implement a `Range` class in JS
 
-```js{monaco}
+```js{monaco}{height:'400px'}
 /**
  * A simple Range class implementation
  * it should:
@@ -99,15 +102,37 @@ const rangeAToB = new IterableRange(1,10)
 
 //And now we can use for...of
 
-
 //or destructure
 
-
 //or spread
+
 ```
 
 ---
-layout: two-cols
+---
+# Interacting with the Iterator Directly
+```js{monaco}
+/**
+ * An iterable that returns natural numbers in inf sequence
+ */
+const infiniteSequence = {
+    [Symbol.iterator]() {
+        let next = 0
+        return {
+            next() {
+                next++
+                return {value: next, done: false}
+            }
+        }
+    }
+}
+
+//What will this do?
+const sequece = [...infiniteSequence]
+
+//but that doesn't make the code totally useless...
+
+```
 ---
 
 # Controlling the Iterator to Enhance Usefulness
