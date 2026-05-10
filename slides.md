@@ -171,7 +171,6 @@ function range(from, to) {
 - **Legibility** — cleaner call sites with `for…of` and spread
 - **Flow control** — pause, resume, and cancel traversal
    - Pagination, streams, transforms
-- Before diving in, a simpler syntax
 
 ```js {monaco}{height:'200px'}
 class NumRange {
