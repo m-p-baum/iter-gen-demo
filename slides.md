@@ -35,11 +35,27 @@ getUser(id).then(user => {
 ```
 
 ---
-layout: center
-class: text-center
+layout: left
+class: text-left
 ---
 
-# Mental warm-up: Fibonacci
+# What is Actually Happening?
+```js{monaco}
+const map = new Map([['a',1], ['b',2], ['c',3]])
+
+for (const [k,v] of map) {
+  console.log(k,v)
+}
+
+//and why not
+var mapFromObj = new Map({a:1, b:2, c:3})
+
+//or
+for (const item in obj) {
+  console.log(item)
+}
+
+```
 
 ---
 
@@ -58,6 +74,37 @@ class: text-center
 # Basic Example
 
 Let's implement a `Range` class in JS
+
+```js{monaco}
+/**
+ * A simple Range class implementation
+ * it should:
+ * --be exposed to for...of
+ * --be usable with spread operator
+ * --be 'destructurable'
+ */
+
+
+class IterableRange {
+    constructor(from, to) {
+        this.to = to
+        this.from = from
+    }
+
+    //How do we make this class iterable?
+
+}
+
+const rangeAToB = new IterableRange(1,10)
+
+//And now we can use for...of
+
+
+//or destructure
+
+
+//or spread
+```
 
 ---
 layout: two-cols
