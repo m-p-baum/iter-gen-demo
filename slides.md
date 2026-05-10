@@ -36,7 +36,7 @@ getUser(id).then(user => {
 //what would be better? 
 
 ```
-
+---
 
 # What is Actually Happening?
 ```js{monaco}
