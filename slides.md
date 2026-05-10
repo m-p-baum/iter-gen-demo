@@ -39,7 +39,7 @@ getUser(id).then(user => {
 ---
 
 # What is Actually Happening?
-```js{monaco}
+```js{monaco}{height: '400px'}
 const map = new Map([['a',1], ['b',2], ['c',3]])
 
 for (const [k,v] of map) {
@@ -105,6 +105,7 @@ const rangeAToB = new IterableRange(1,10)
 ---
 ---
 # Interacting with the Iterator Directly
+- Creating an iterator can give us more direct control of the process
 ```js{monaco}
 /**
  * An iterable that returns natural numbers in inf sequence
