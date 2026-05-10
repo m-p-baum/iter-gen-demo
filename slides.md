@@ -14,13 +14,13 @@ duration: 35min
 
 # Iterators & Generators in JS
 
-Control Flow, Async, Lazy Evaluation
+Control Flow, Async -> 'Sync', Lazy Evaluation
 
 ---
 transition: fade-out
 ---
 
-# What's 'wrong' with this code
+# What's 'Wrong' with this code
 
 ```js {monaco}
 getUser(id).then(user => {
