@@ -14,13 +14,23 @@
 - Generators are a great **flow control** method
   - The generator and the caller are two separate execution streams
 
-```js {monaco-run}{height: '200px'}
-function* partialSums() {
-  let n = 0
-  const nthTerm = (int) => .5**n
-  
+<script setup>
+const genSkeleton = `function* smallNumbers() {
+  let y1 = yield 1
+  console.log('sent back:', y1)
+  let y2 = yield 2
+  console.log('sent back:', y2)
+  let y3 = yield 3
+  console.log('sent back:', y3)
+  return 4
 }
-const sums = partialSums()
 
-```
+const gen = smallNumbers()
+console.log(gen.next())
+console.log(gen.next())
+console.log(gen.next())
+console.log(gen.next())`
+</script>
+
+<CodeDebugger :skeleton="genSkeleton" height="160px" />
 
