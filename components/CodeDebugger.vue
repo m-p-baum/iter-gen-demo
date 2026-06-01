@@ -184,7 +184,7 @@ function buildTrace() {
 
   trace.value = newTrace
   logs.value  = newLogs
-  currentStep.value = newTrace.length ? 0 : -1
+  currentStep.value = -1
 }
 
 // ── derived view state ─────────────────────────────────
@@ -219,7 +219,7 @@ const statusText = computed(() => {
 })
 
 // ── controls ───────────────────────────────────────────
-function run()       { buildTrace() }
+function run()       { buildTrace(); if (hasTrace.value) continueRun() }
 function stepInto()  { if (hasTrace.value && currentStep.value < trace.value.length - 1) currentStep.value++ }
 function stepBack()  { if (hasTrace.value && currentStep.value > 0) currentStep.value-- }
 function continueRun() {
