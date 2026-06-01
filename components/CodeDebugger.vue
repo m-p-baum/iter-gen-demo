@@ -306,6 +306,7 @@ watch(hasTrace, v => { if (!v) emit('change', null) })
               v-model="code"
               class="code-area"
               spellcheck="false" autocorrect="off" autocapitalize="off"
+              :style="{ overflowY: props.height ? 'auto' : 'hidden' }"
               @scroll="onScroll"
             />
           </div>

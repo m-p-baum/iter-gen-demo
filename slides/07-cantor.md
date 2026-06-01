@@ -89,6 +89,7 @@ function drawLevel(segments, level) {
     <CodeDebugger
       :skeleton="cantorCode"
       filename="cantor.js"
+      height="340px"
       :show-inspector="false"
       :context="context"
       @change="onDebugChange"
@@ -103,8 +104,6 @@ function drawLevel(segments, level) {
 
 <style scoped>
 .graph-area {
-  border: 1px solid #ccc;
-  border-radius: 8px;
   background: #fff;
   height: 100%;
 }
