@@ -36,6 +36,10 @@ src: ./slides/06-yield-expression.md
 ---
 
 ---
+src: ./slides/07-cantor.md
+---
+
+---
 src: ./slides/07-promise-chains.md
 ---
 

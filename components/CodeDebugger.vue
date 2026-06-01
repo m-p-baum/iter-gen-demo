@@ -1,15 +1,19 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import * as BabelNS from '@babel/standalone'
 
 const Babel = BabelNS.default || BabelNS
 
 const props = defineProps({
-  skeleton: { type: String, default: '' },
-  height:   { type: String, default: '300px' },
-  filename: { type: String, default: 'scratch.js' },
-  stepLimit:{ type: Number, default: 2000 },
+  skeleton:  { type: String,  default: '' },
+  height:    { type: String,  default: null },
+  filename:  { type: String,  default: 'scratch.js' },
+  stepLimit: { type: Number,  default: 2000 },
+  showInspector: { type: Boolean, default: true },
+  context:   { type: Object,  default: () => ({}) },  // extra vars injected into sandbox
 })
+
+const emit = defineEmits(['change'])
 
 // Layout constants — MUST match the CSS below
 const LINE_H = 20   // px per line
@@ -141,11 +145,17 @@ function buildTrace() {
     warn: mkLog('warn'), error: mkLog('error'),
   }
 
+  // pull __onStep out of context — it's a hook, not an injected var
+  const ctxOnStep = props.context?.__onStep
+  const ctxKeys   = Object.keys(props.context ?? {}).filter(k => k !== '__onStep')
+  const ctxVals   = ctxKeys.map(k => props.context[k])
+
   const __step = (line, thunk) => {
     if (++steps > props.stepLimit) { const e = new Error('step limit'); e.__limit = true; throw e }
     lastLine = line
     try { lastVars = thunk() } catch { lastVars = {} }
     newTrace.push({ line, vars: lastVars, logCount: newLogs.length })
+    ctxOnStep?.(newTrace.length - 1)   // tell context which step index just fired
   }
 
   let src
@@ -159,7 +169,7 @@ function buildTrace() {
 
   try {
     // eslint-disable-next-line no-new-func
-    new Function('__step', 'console', src)(__step, sandboxConsole)
+    new Function('__step', 'console', ...ctxKeys, src)(__step, sandboxConsole, ...ctxVals)
     newTrace.push({ line: null, done: true, logCount: newLogs.length, vars: lastVars })
   } catch (e) {
     if (e && e.__limit) {
@@ -179,6 +189,8 @@ function buildTrace() {
 
 // ── derived view state ─────────────────────────────────
 const lineCount    = computed(() => code.value.split('\n').length)
+const editorHeight = computed(() =>
+  props.height ?? `${PAD_T * 2 + lineCount.value * LINE_H}px`)
 const hasTrace     = computed(() => trace.value.length > 0)
 const currentEntry = computed(() =>
   currentStep.value >= 0 && currentStep.value < trace.value.length
@@ -238,6 +250,15 @@ watch(code, () => {
     trace.value = []; logs.value = []; currentStep.value = -1; buildError.value = ''
   }
 })
+
+// inspector toggle
+const showSide = ref(props.showInspector)
+
+// emit current vars whenever the step changes (for external viz components)
+watch(currentStep, () => {
+  emit('change', currentEntry.value ? { step: currentStep.value, vars: currentEntry.value.vars ?? {} } : null)
+})
+watch(hasTrace, v => { if (!v) emit('change', null) })
 </script>
 
 <template>
@@ -253,7 +274,7 @@ watch(code, () => {
     <div class="main">
       <!-- ── editor column ── -->
       <div class="editor-col">
-        <div class="editor-row" :style="{ height }">
+        <div class="editor-row" :style="{ height: editorHeight }">
           <!-- gutter: breakpoints + arrow + line numbers -->
           <div class="gutter">
             <div class="gutter-scroll" :style="{ transform: `translateY(${-scrollTop}px)` }">
@@ -298,6 +319,7 @@ watch(code, () => {
           <button class="b" :disabled="!hasTrace || currentStep >= trace.length - 1" @click="continueRun">⏩ Continue</button>
           <button class="b ghost" @click="reset">↺ Reset</button>
           <span class="status" :class="{ err: isError }">{{ statusText }}</span>
+          <button class="b ghost side-toggle" @click="showSide = !showSide" :title="showSide ? 'Hide inspector' : 'Show inspector'">{{ showSide ? '⊟' : '⊞' }}</button>
         </div>
 
         <div v-if="buildError" class="errbar"><pre>{{ buildError }}</pre></div>
@@ -305,7 +327,7 @@ watch(code, () => {
       </div>
 
       <!-- ── inspector column ── -->
-      <div class="side">
+      <div v-show="showSide" class="side">
         <div class="panel">
           <div class="panel-h">Variables</div>
           <div class="panel-b">
@@ -401,7 +423,7 @@ watch(code, () => {
   padding: 12px 14px;                /* top = PAD_T */
   font-family: inherit; font-size: 13px;
   line-height: 20px;                 /* = LINE_H */
-  tab-size: 2; white-space: pre; overflow: auto;
+  tab-size: 2; white-space: pre; overflow-x: auto; overflow-y: hidden;
   box-sizing: border-box;
 }
 
@@ -423,6 +445,7 @@ watch(code, () => {
 .b.step { background: #89b4fa; color: #1e1e2e; border-color: #89b4fa; font-weight: 700; }
 .b.ghost { background: transparent; color: #6c7086; }
 .status { margin-left: auto; color: #585b70; font-size: 11px; }
+.side-toggle { margin-left: 4px; font-size: 14px; padding: 1px 6px; }
 .status.err { color: #f38ba8; }
 
 /* error */
