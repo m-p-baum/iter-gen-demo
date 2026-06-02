@@ -1,3 +1,6 @@
+---
+class: overflow-y-auto
+---
 # What is an Iterator?
 
 - The method that makes something iterable
@@ -7,8 +10,21 @@
   - `{value: any, done?: bool}` | `{value?: any, done: true}`
 - Arrays, maps, sets, strings already implement a `[Symbol.iterator]`
 
-```js{monaco-run}{height: '100px'}
+```js{monaco-run}{height: '300px'}
 
-//const arr = Array.from()
+const str = "foo" 
+
+const arr = Array.from(str)
+
+const iterableGrades = {
+  "Audrey": 95,
+  "Walter": 100,
+  "Rebecca": 90
+  //Make this iterable
+}
+
+
+
+
 
 ```
