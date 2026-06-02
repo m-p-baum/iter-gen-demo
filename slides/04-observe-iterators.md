@@ -29,13 +29,20 @@ const deck = new Deck()
 
 // Deal hand 1
 const hand1 = []
-for (const card of deck) {
-  hand1.push(card)
-  if (hand1.length === 5) break
+for (let n = 1; n <= 5; n++) {
+  hand1.push(deck.next().value)
 }
 console.log('Hand 1:', hand1)
 
-// Deal hand 2 — should continue from card 6, not restart
+// Deal hand 2
+
+const hand2 = []
+for (let n = 1; n <= 5; n++) {
+  hand2.push(deck.next().value)
+}
+console.log('Hand 2:', hand2)
+
+// Deal remaining cards to table
 
 
 function shuffle(arr) {

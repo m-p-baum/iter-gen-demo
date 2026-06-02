@@ -244,6 +244,16 @@ function reset() {
 }
 function onScroll(e) { scrollTop.value = e.target.scrollTop }
 
+function handleTab(e) {
+  e.preventDefault()
+  const ta = e.target
+  const start = ta.selectionStart
+  const end = ta.selectionEnd
+  ta.value = ta.value.slice(0, start) + '  ' + ta.value.slice(end)
+  ta.selectionStart = ta.selectionEnd = start + 2
+  code.value = ta.value
+}
+
 // editing invalidates the trace — re-run to rebuild
 watch(code, () => {
   if (hasTrace.value || buildError.value) {
@@ -308,6 +318,7 @@ watch(hasTrace, v => { if (!v) emit('change', null) })
               spellcheck="false" autocorrect="off" autocapitalize="off"
               :style="{ overflowY: props.height ? 'auto' : 'hidden' }"
               @scroll="onScroll"
+              @keydown.tab="handleTab"
             />
           </div>
         </div>

@@ -150,6 +150,16 @@ function reset() {
   prompt.value = ''
   errorMsg.value = ''
 }
+
+function handleTab(e) {
+  e.preventDefault()
+  const ta = e.target
+  const start = ta.selectionStart
+  const end = ta.selectionEnd
+  ta.value = ta.value.slice(0, start) + '  ' + ta.value.slice(end)
+  ta.selectionStart = ta.selectionEnd = start + 2
+  code.value = ta.value
+}
 </script>
 
 <template>
@@ -180,6 +190,7 @@ function reset() {
       spellcheck="false"
       autocorrect="off"
       autocapitalize="off"
+      @keydown.tab="handleTab"
     />
 
     <!-- Action bar -->

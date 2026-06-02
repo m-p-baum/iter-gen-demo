@@ -45,7 +45,7 @@ function onDebugChange(data) {
 // ── code skeleton ──────────────────────────────────────
 const cantorCode = `
 
-function* cantorSet() {
+function* cantorTernarySet() {
   let firstLevel =  [[0,1]]
   drawLevel(firstLevel, 1)
   yield
@@ -54,7 +54,7 @@ function* cantorSet() {
   yield
 }
 
-const gen = cantorSet()
+const gen = cantorTernarySet()
 gen.next()
 
 function removeMiddleThirds(segments) {

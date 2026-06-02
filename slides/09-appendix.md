@@ -1,6 +1,10 @@
+---
+class: overflow-y-auto
+---
+
 # Operating on an Iterator
 
-```js {monaco}{height:'200px'}
+```js {monaco}{height:'400px'}
 class NumRange {
   constructor(from, to) {
     this.from = from;
