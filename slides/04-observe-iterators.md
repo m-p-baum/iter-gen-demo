@@ -9,36 +9,20 @@ class: overflow-y-auto
 - We can really control a process w/ a little bit of tweaking
 
 <script setup>
-const deckSkeleton = `function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
+const deckSkeleton = `
 
 class Deck {
   constructor() {
-    const cards = []
-    this.cards = cards
+    const cards = [];
+    this.cards = shuffle(cards);
+    this.cursor = 0;
   }
 
-  
-    let cursor = 0
-    const deck = this.cards
-    const len = this.cards.length 
-    
-      next() {
-        if (cursor >= len)
-          return { value: undefined, done: true }
-        return { value: deck[cursor++], done: false }
-      }
-    
-  
-
-  // How do we make Deck an iterable-iterator?
-  // (so we can resume from where we left off)
+  next() {
+    if (this.cursor >= this.cards.length)
+      return { value: undefined, done: true };
+    return { value: this.cards[this.cursor++], done: false };
+  }
 }
 
 const deck = new Deck()
@@ -52,6 +36,17 @@ for (const card of deck) {
 console.log('Hand 1:', hand1)
 
 // Deal hand 2 — should continue from card 6, not restart
+
+
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
 `
 </script>
 

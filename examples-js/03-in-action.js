@@ -1,13 +1,4 @@
----
-class: overflow-y-auto
----
-
-# In Action
-
-Let's implement a `Range` class in JS
-
-<script setup>
-const skeleton = `/**
+/**
  * @classdesc A simple Range class implementation
  * it should:
  * --be exposed to for...of
@@ -30,9 +21,3 @@ class IterableRange {
 }
 
 const rangeAToB = new IterableRange(1, 10)
-
-
-`
-</script>
-
-<AiCoder :skeleton="skeleton" height="360px" />
